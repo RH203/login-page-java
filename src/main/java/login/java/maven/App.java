@@ -4,7 +4,7 @@ import javax.swing.SwingUtilities;
 import login.java.maven.classes.LoginPage;
 
 /**
- * Login page
+ * Login page - Java Swing
  *
  */
 public class App {

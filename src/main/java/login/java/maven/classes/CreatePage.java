@@ -1,4 +1,3 @@
-// CreatePage.java
 package login.java.maven.classes;
 
 import login.java.maven.database.ConnectDatabase;
@@ -91,6 +90,7 @@ public class CreatePage {
     return password.equals(passwordConfirm);
   }
 
+  // Function add data into database
   private void createAccount(String username, String password) {
     ConnectDatabase db = new ConnectDatabase();
 

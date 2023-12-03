@@ -1,4 +1,3 @@
-// LoginPage.java
 package login.java.maven.classes;
 
 import login.java.maven.database.ConnectDatabase;
@@ -87,7 +86,7 @@ public class LoginPage {
       }
     });
     panel.add(createButton);
-  }
+  } // end place components
 
   private void openCreatePage() {
     frame.dispose();
