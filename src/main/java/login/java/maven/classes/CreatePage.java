@@ -81,6 +81,8 @@ public class CreatePage {
             JOptionPane.showMessageDialog(null, "Passwords do not match.");
           }
         } else {
+          frame.dispose();
+          loginPage.showLoginPage();
           JOptionPane.showMessageDialog(null, "Username already exists.");
         }
       }
