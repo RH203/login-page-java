@@ -61,12 +61,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ConnectDatabase {
-  //static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-  static final String DB_URL = "jdbc:mysql://localhost:3306/login_java";
-  static final String USER = "root"; //If you have a username for your mysql database replace root with your database username, but root is the default of the mysql username.
-  static final String PASS = ""; // If your mysql has a password fill in here, otherwise leave it blank
+  static final String DB_URL = "jdbc:mysql://localhost:3306/login_java"; // change 3360 with your current port on Xampp
+  static final String USER = "root";
+  static final String PASS = "";
 
-  public void createUser (String userPengguna, String passPengguna) throws SQLException, ClassNotFoundException {
+  public void createUser(String userPengguna, String passPengguna) throws SQLException, ClassNotFoundException {
     try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
          PreparedStatement stmt = conn.prepareStatement("INSERT INTO customer (user_pengguna, password_pengguna) VALUES (?, ?)")) {
 
@@ -82,6 +81,18 @@ public class ConnectDatabase {
 
       stmt.setString(1, userPengguna);
       stmt.setString(2, passPengguna);
+
+      try (ResultSet rs = stmt.executeQuery()) {
+        return rs.next();
+      }
+    }
+  }
+
+  public boolean checkUsername(String username) throws SQLException, ClassNotFoundException {
+    try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+         PreparedStatement stmt = conn.prepareStatement("SELECT user_pengguna FROM customer WHERE BINARY user_pengguna = ?")) {
+
+      stmt.setString(1, username);
 
       try (ResultSet rs = stmt.executeQuery()) {
         return rs.next();
