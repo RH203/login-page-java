@@ -15,7 +15,7 @@ public class CreatePage {
 
   public CreatePage(LoginPage loginPage) {
     frame = new JFrame("Create Account");
-    frame.setSize(400, 300);
+    frame.setSize(600, 600);
     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
     JPanel panel = new JPanel();
@@ -62,44 +62,56 @@ public class CreatePage {
     checkPasswordField.setBounds(120, 120, 145, 25);
     panel.add(checkPasswordField);
 
+
+
     JButton createAccountButton = new JButton("Create Account");
     createAccountButton.setBounds(120, 150, 150, 30);
     createAccountButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        if(checkPasword()) {
-          String username = newUsernameField.getText();
-          String password = new String(newPasswordField.getPassword());
-          createAccount(username, password);
-          JOptionPane.showMessageDialog(null, "Account created successfully.");
+        String username = newUsernameField.getText();
+        if (!checkUsername(username)) {
+          if (checkPassword()) {
+            String password = new String(newPasswordField.getPassword());
+            createAccount(username, password);
+            JOptionPane.showMessageDialog(null, "Account created successfully.");
+            frame.dispose();
+            loginPage.showLoginPage();
+          } else {
+            JOptionPane.showMessageDialog(null, "Passwords do not match.");
+          }
         } else {
-          JOptionPane.showMessageDialog(null, "Password tidak sama");
+          JOptionPane.showMessageDialog(null, "Username already exists.");
         }
-
-        frame.dispose();
-        loginPage.showLoginPage();
       }
     });
     panel.add(createAccountButton);
-  } // End place components function
+  }
 
-  // Function check password
-  private boolean checkPasword () {
+  private boolean checkPassword() {
     String password = new String(newPasswordField.getPassword());
     String passwordConfirm = new String(checkPasswordField.getPassword());
     return password.equals(passwordConfirm);
   }
 
-  // Function add data into database
-  private void createAccount(String username, String password) {
-    ConnectDatabase db = new ConnectDatabase();
-
+  private boolean checkUsername(String username) {
     try {
+      ConnectDatabase db = new ConnectDatabase();
+      return db.checkUsername(username);
+    } catch (SQLException | ClassNotFoundException ex) {
+      ex.printStackTrace();
+      JOptionPane.showMessageDialog(null, "Error during registration process.");
+      return false;
+    }
+  }
+
+  private void createAccount(String username, String password) {
+    try {
+      ConnectDatabase db = new ConnectDatabase();
       db.createUser(username, password);
     } catch (SQLException | ClassNotFoundException ex) {
       ex.printStackTrace();
-      JOptionPane.showMessageDialog(null, "Error during registation process.");
+      JOptionPane.showMessageDialog(null, "Error during registration process.");
     }
-
   }
 }
