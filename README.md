@@ -1,4 +1,4 @@
-# Login java using swing
+# Login page and authentication  use java swing
 <p>This program is made using Swing, Java, Maven, and MySQL. This program can create an account that has a feature to check whether the passwords entered are the same or not, and will display a message if the passwords entered are not the same.</p>
 
 ## Tech Stack
